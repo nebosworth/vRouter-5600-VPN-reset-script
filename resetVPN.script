@@ -1,0 +1,24 @@
+#!/bin/vbash
+#set run var to the vRouter command wrapper
+run=/opt/vyatta/bin/vyatta-op-cmd-wrapper
+
+#Get endpoint IP from CLI
+endpoint=$1
+
+#log output to syslog
+exec 1> >(logger -s -t $(basename $0)) 2>&1
+
+#check if ike (phase 1) is up and set updown var accordingly
+if $run show vpn ike sa peer $endpoint | grep -q -i 'up'; then
+	updown=UP
+	else
+	updown=DOWN
+fi
+
+#if updown is DOWN, reset the VPN and log the reset else just log the VPN as up
+if [[ $updown = "DOWN" ]]; then
+	$run reset vpn ipsec-peer $endpoint;
+	echo VPN tunnel to $endpoint is $updown - RESETTING
+	else
+	echo VPN tunnel to $endpoint is $updown
+fi

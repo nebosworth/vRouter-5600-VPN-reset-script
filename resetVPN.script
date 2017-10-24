@@ -6,14 +6,14 @@ run=/opt/vyatta/bin/vyatta-op-cmd-wrapper
 endpoint=$1
 
 #log output to syslog
-exec 1> >(logger -s -t $(basename $0)) 2>&1
+exec 1> >(logger -s -t "$(basename "$0")") 2>&1
 
 #check if ike (phase 1) is up and set updown var accordingly and reset VPN if needed then echo status to syslog
-if $run show vpn ike sa peer $endpoint | grep -q -i 'up'; then
+if $run show vpn ike sa peer "$endpoint" | grep -q -i 'up'; then
 	updown=UP;
-	echo VPN tunnel to $endpoint is $updown
+	echo VPN tunnel to "$endpoint" is $updown
 	else
 	updown=DOWN;
-	$run reset vpn ipsec-peer $endpoint;
-	echo VPN tunnel to $endpoint is $updown - RESETTING
+	$run reset vpn ipsec-peer "$endpoint";
+	echo VPN tunnel to "$endpoint" is $updown - RESETTING
 fi

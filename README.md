@@ -1,6 +1,6 @@
 # vRouter-5600-VPN-reset-script
 
-This script will check the ike status of a VPN on vRouter 5600 and reset the VPN if needed. Place in /config/scripts and add entry in crontab with endpoint IP - 
+This script will check the ike status of a VPN on vRouter 5600 and reset the VPN if needed. Place in /config/scripts, chmod ug+x, and add entry in crontab with endpoint IP - 
 
 */5 * * * * /config/scripts/resetVPN.script x.x.x.x
 
